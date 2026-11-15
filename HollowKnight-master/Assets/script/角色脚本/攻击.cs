@@ -42,7 +42,7 @@ public class 攻击 : MonoBehaviour
 
         if (animator == null)
         {
-            Debug.LogError("PlayerAttack：没有找到 Animator 组件！");
+            Debug.Log("PlayerAttack：没有找到 Animator 组件！");
         }
     }
 

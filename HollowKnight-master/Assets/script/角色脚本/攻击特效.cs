@@ -76,4 +76,8 @@ public class 攻击特效 : MonoBehaviour
         gameObject.SetActive(false);
         effectCoroutine = null;
     }
+    void Update()
+    {
+        
+    }
 }
