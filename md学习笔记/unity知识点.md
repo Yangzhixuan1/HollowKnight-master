@@ -343,3 +343,143 @@ void Start()
     }
 
 ```
+### 位移知识点32节
+``` cs
+    //位移自己计算，以方向向自己的面朝向
+    this.transform.position = this.transform.position + this.transform.forward * Speech * Time.deltaTime;
+    //以世界的面朝向移动
+    this.transform.position = this.transform.position + Vector3.forward * Speech * Time.deltaTime;
+    
+    //自带的函数,一般用这个
+    //参数一为位移多少
+    //参数二为是否要世界坐标系默认不填是相对自己的坐标系
+    this.transform.Translate(Vector3.forward * Speech * Time.deltaTime); //这种是面向自己
+    this.transform.Translate(Vector3.forward * Speech * Time.deltaTime , Space.World); //默认是Space.self这种是面向世界
+    this.transform.Translate(this.transform.forward * Speech * Time.deltaTime , Space.World);//这种是面向自己
+```
+
+### 旋转知识点34节
+``` cs
+
+    //相对世界
+    print(this.transform.eulerAngles);
+    //相对父对象
+    print(this.transform.localEulerAngles);
+    
+    //类似速度修改
+    this.transform.eulerAngles = new Vector3(10,90,90);
+    this.transform.localEulerAngles = new Vector3(10,90,90);
+
+    //旋转
+    this.transform.Rotate(new Vector3(0,10,0) * Time.deltaTime);//与上面一样，有两个参数
+    this.transform.Rotate(Vector3.up * Time.deltaTime); //up为y轴，right为x轴，forword为z，绕着某轴转
+    //绕着某一点转
+    //第一参数为一个点，第二参数是该点方向，第三个为旋转速度*时间
+    this.transform.RotateAround(Vector3.zero,Vector3.up ,10 * Time.deltaTime );
+```
+
+### 缩放,与看向 36节
+``` cs
+//缩放
+    print(this.transform.localScale);//相对父对象
+    print(this.transform.lossyScale);//相对世界
+
+    //只能修改local，世界只能读不能改
+    
+
+    this.transform.localScale += new Vector3(0.01f,0.01f,0.01f);
+    //没有类似上面几个的方法
+
+    //看向一个点（世界坐标系）update内
+    this.transform.LookAt(Vector3.zero);//看向原点，面朝y轴过去
+
+    //看向一个对象
+    this.transform.LookAt(obj1.transform);
+```
+
+### 父子关系 38节
+``` cs
+
+    //.parent获取的是transform，可以点出名字  
+    //print(this.transform.parent.name); 
+    //断绝父子关系
+    //this.transform.parent = null;
+    //认父对象
+    this.transform.parent = GameObject.Find("钱").transform;
+        
+    //通过api设置
+    this.transform.SetParent(null); //里面填要认的对象
+    //第二个参数是是否保留世界坐标位置,就是不变，一般要true,默认
+    //this.transform.SetParent(GameObject.Find("钱").transform,true);
+    this.transform.SetParent(GameObject.Find("钱").transform,false);
+    //如果是false，就是将面板上的数据直接变相对坐标会很奇怪
+
+    //删除自己的所有儿子,自己的孙子上位
+    this.transform.DetachChildren();
+
+    //查找子对象
+    GameObject obj = this.transform.Find("Cube").gameObject;
+    //区别gameobject的find，这个是找子对象，且这个可以找到失活的，object是不能找失活的，且找的是全局的
+    //只能找儿子找不了孙子
+
+    //遍历儿子
+    print(transform.childCount); // 找到儿子的数量，包括失活，不包括孙子
+
+    for (int i = 0 ; i < this.transform.childCount ; i++)
+    {
+        print(this.transform.GetChild(i).name); //将所有儿子名字打印出来
+    }
+
+    //儿子的操作
+
+    son.IsChildOf(this.transform); //这个是不是ta的儿子，返回bool
+    if (son.IsChildOf(this.transform))
+    {
+        print("这是我的儿子");
+    }
+
+    //得到自己作为儿子的编号
+
+    print(son.GetSiblingIndex());
+
+    son.SetAsFirstSibling(); //将自己设置为第一个儿子
+    son.SetAsLastSibling(); //将自己设置为最后一个儿子
+    son.SetSiblingIndex(3) ;//将自己设置为指定的儿子，超出范围会是最后一个
+```
+
+### 坐标转化
+``` cs
+//世界转本地
+    //将括号内转化为本地坐标系的位置（原点不变）受到缩放影响
+    print(this.transform.InverseTransformPoint(Vector3.forward));
+    //用于判断相对方位，比如x大于0就是在他的左边
+    
+    //方向转化
+    //不受缩放影响
+    print(this.transform.InverseTransformDirection(Vector3.forward));
+    //收到缩放影响
+    print(this.transform.InverseTransformVector(Vector3.forward));
+
+
+
+    //本地转世界常用，收到缩放影响
+    //最重要
+    print(this.transform.TransformPoint(Vector3.forward)); //将自己前面的点坐标转为世界坐标，比如在自己面前放地刺
+
+    //本地方向转世界方向
+    print(this.transform.TransformDirection(Vector3.forward));//不受缩放影响
+    print(this.transform.TransformVector(Vector3.forward));//受缩放影响
+
+    //实例
+    void Start()
+    {
+        Transform dog = GameObject.Find("dog").transform;
+        if (dog != null)
+        {
+            dog.transform.position = this.transform.TransformPoint(new Vector3(1,0,1));//在左前方创建物体
+            
+        }
+    }
+
+```
+
