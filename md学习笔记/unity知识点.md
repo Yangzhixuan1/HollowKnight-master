@@ -482,4 +482,90 @@ void Start()
     }
 
 ```
+### 输入42 ,43节
+``` cs
+    void Update()
+    {
+        //print(Input.mousePosition);//鼠标位置，左下角为原点只有xy
+        if (Input.GetMouseButtonDown(0)) //0左键，1右键，2中键 up抬起down按下没有修饰就是每一帧就进入返回是bool
+        {
+            print("左键按下");
+        }
+        //鼠标中键
+        //返回xy，y=-1为向下，+1为向上，0为不动
+        //print(Input.mouseScrollDelta); 
 
+        //键盘输入
+        if(Input.GetKeyDown(KeyCode.W)) //同样有up和没有修饰
+        {
+            print("按下w键");
+        }
+        //不推荐这种重载，只能填小写
+        if(Input.GetKeyDown("w"))
+        {
+            //print("按下w键");
+        }
+
+        //默认轴输入
+        print(Input.GetAxis("Horizontal")); //获取水平轴输入返回水平输入，1到-1之间的浮点数
+        print(Input.GetAxis("Vertical"));
+        //鼠标输入
+        print(Input.GetAxis("Mouse X")) ;//鼠标横向运动
+        print(Input.GetAxis("Mouse Y")) ;//鼠标竖向运动
+        
+        //GetAxis 不会有中间值,用法一样
+        print(Input.GetAxisRaw("Horizontal"));
+    }
+    //其他方法
+        //任意键
+        if(Input.anyKeyDown)
+        {
+            print("有一个键被按下");
+            print(Input.inputString); //按下的是什么键，一般配合使用空格和鼠标也可以查，显示为空
+        }
+        if(Input.anyKey)
+        {
+            print("有一个键被长按");
+        }
+
+        //主机游戏按键略，写了也记不住去看43节课7分钟
+
+        //移动设备触摸 也记不住43节8分钟
+
+        //陀螺仪
+```
+### 屏幕45节
+``` cs
+    Resolution r = Screen.currentResolution ;//当前的分辨率
+    print("当前分辨率为"+r.width + "*" + r.height);
+    print(Screen.width); //屏幕的宽高，不是分辨率
+    print(Screen.height);
+
+    //屏幕息屏模式
+    Screen.sleepTimeout = SleepTimeout.NeverSleep ;//永不息屏（手机端）
+
+    //不常用
+    Screen.fullScreen = true;//是否运行时全屏
+    Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen ;//独占全屏还有其他模式
+    Screen.fullScreenMode = FullScreenMode.FullScreenWindow ; //全屏窗口
+    Screen.fullScreenMode = FullScreenMode.MaximizedWindow ; //最大化窗口 
+    Screen.fullScreenMode = FullScreenMode.Windowed ;//窗口模式  
+
+    //移动设备旋转
+    //允许左横向
+    Screen.autorotateToLandscapeLeft = true ;
+    //右横向
+    Screen.autorotateToLandscapeRight = true ;
+    //纵向
+    Screen.autorotateToPortrait = true ;
+    //倒立
+    Screen.autorotateToPortraitUpsideDown = true ;
+
+    //指定屏幕方向
+    Screen.orientation = ScreenOrientation.AutoRotation ;//自动旋转，也可以指定方向
+
+
+    //静态方法
+    //设置分辨率
+    Screen.SetResolution(1920,1080,true); //最后一个参数是否全屏
+```
