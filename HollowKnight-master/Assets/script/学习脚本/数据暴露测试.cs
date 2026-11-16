@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class 数据暴露测试 : MonoBehaviour
 {
+    /*
     public int age ;
     public float high;
     public string newname;
@@ -18,7 +18,7 @@ public class 数据暴露测试 : MonoBehaviour
         fall,
         attack
     }
-    public Image image;
+    //public Image image;
     public int[] arr = new int[4];
     public List<int> list = new List<int>();
 
@@ -91,4 +91,5 @@ public class 数据暴露测试 : MonoBehaviour
     {
         length = 5;
     }
+    */
 }
